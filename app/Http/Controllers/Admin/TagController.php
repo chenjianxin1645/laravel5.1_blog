@@ -69,17 +69,7 @@ class TagController extends Controller
             ->withSuccess("The tag '$tag->tag' was created.");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -128,7 +118,12 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
+        /*
+         * 三处标签的同时 也要考虑文章 以及中间表的关联关系
+         * */
         $tag = Tag::findOrFail($id);
+        //当删除标签完毕时  从中间表移除所有的关于该tag的的post级联删除
+        $tag->posts()->detach();
         $tag->delete();
 
         return redirect('/admin/tag')

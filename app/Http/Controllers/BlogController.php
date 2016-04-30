@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Jobs\BlogIndexData;
 use App\Post;
+use App\Services\RssFeed;
+use App\Services\SiteMap;
 use App\Tag;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -49,6 +51,29 @@ class BlogController extends Controller
             $tag = Tag::whereTag($tag)->firstOrFail();
         }
         //获取文章详情要显示的视图 并带上文章详情的对象
-        return view($post->layout, compact('post', 'tag'));
+        //传递文章 slug 字段到页面
+        return view($post->layout, compact('post', 'tag','slug'));
     }
+
+    // 从RssFeed服务类添加rss订阅方法
+    public function rss(RssFeed $feed)
+    {
+        $rss = $feed->getRSS();
+
+        return response($rss)
+            ->header('Content-type', 'application/rss+xml');
+    }
+
+    /*
+     * 获取sitemap的
+     * */
+    public function siteMap(SiteMap $siteMap)
+    {
+        $map = $siteMap->getSiteMap();
+
+        //返回xml响应格式
+        return response($map)
+            ->header('Content-type', 'text/xml');
+    }
+
 }

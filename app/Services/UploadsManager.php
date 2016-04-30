@@ -219,7 +219,8 @@ class UploadsManager
         if ($this->disk->exists($path)) {
             return "File already exists.";
         }
-        //put 方法保存单个文件于磁盘上 使用文件系统底层的 stream 支持 将文件内容写入文件
+        //put 方法保存单个文件于磁盘上 使用文件系统底层的 stream 支持
+        // 将文件内容写入文件 推荐使用stream保存文件
         return $this->disk->put($path, $content);
 //        dd(public_path('uploads').$folder);
 //        return $content->move(public_path('uploads').$folder,$filename);

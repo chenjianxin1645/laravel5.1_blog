@@ -113,7 +113,7 @@ class Post extends Model
         Tag::addNeededTags($tags);
 
         if (count($tags)) {
-            //任何不在给定数组中的tag id 将会从中介表中被删除。、、
+            //任何不在给定数组中的tag id 将会从中介表中被删除。
            $this->tags()->sync(
                 //获取所有添加tag的id
                 Tag::whereIn('tag', $tags)->lists('id')->all()

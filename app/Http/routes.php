@@ -8,11 +8,18 @@ get('/', function () {
     return redirect('/blog');
 });
 
+// blog index
 get('blog', 'BlogController@index');//文章列表
 get('blog/{slug}', 'BlogController@showPost');//文章的详情
 
+//联系我们
 $router->get('contact', 'ContactController@showForm');
 Route::post('contact', 'ContactController@sendContactInfo');
+
+// 添加rss订阅
+get('rss', 'BlogController@rss');
+//添加siteMap
+get('sitemap.xml', 'BlogController@siteMap');
 
 /*
  * admin blog
